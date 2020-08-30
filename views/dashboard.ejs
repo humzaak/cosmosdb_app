@@ -1,0 +1,318 @@
+
+  
+
+<h1 class="mt-4">Dashboard</h1>
+<p class="lead mb-3"> <span id="dataid"> Welcome <%= id %></span></p>
+<a href="/users/logout" class="btn btn-secondary">Logout</a>
+
+<div class="container1" >
+  <div class="chart-container"><canvas id="canvas_00"></canvas></div>  
+  <div class="chart-container"><canvas id="canvas_01"></canvas></div>  
+  <div class="chart-container"><canvas id="canvas_02"></canvas></div>  
+  <div class="chart-container"><canvas id="canvas_03"></canvas></div>  
+  <div class="chart-container"><canvas id="canvas_04"></canvas></div>  
+  <div class="chart-container"><canvas id="canvas_05"></canvas></div>  
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+
+const socket = new WebSocket('ws://localhost:8080');
+
+
+//Charting
+
+    var ids = [];
+		var config_00 = {
+			type: 'line',
+			data: {
+				labels: [],
+				datasets: [{
+					label: ' data',
+					backgroundColor: '#ff0000',
+					borderColor:'#ff0000',
+					data: [],
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Sensor data 0'
+				},
+				
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: ''
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Value'
+						}
+					}]
+				}
+			}
+    };
+    
+    var config_01 = {
+			type: 'line',
+			data: {
+				labels: [],
+				datasets: [{
+					label: ' data',
+					backgroundColor: '#ff0000',
+					borderColor:'#ff0000',
+					data: [],
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Sensor data 1'
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: ''
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Value'
+						}
+					}]
+				}
+			}
+    };
+    
+    var config_02 = {
+			type: 'line',
+			data: {
+				labels: [],
+				datasets: [{
+					label: ' data',
+					backgroundColor: '#ff0000',
+					borderColor:'#ff0000',
+					data: [],
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Sensor data 2'
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: ''
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Value'
+						}
+					}]
+				}
+			}
+    };
+    
+    var config_03 = {
+			type: 'line',
+			data: {
+				labels: [],
+				datasets: [{
+					label: ' data',
+					backgroundColor: '#ff0000',
+					borderColor:'#ff0000',
+					data: [],
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Sensor data 3'
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: ''
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Value'
+						}
+					}]
+				}
+			}
+    };
+    
+    var config_04 = {
+			type: 'line',
+			data: {
+				labels: [],
+				datasets: [{
+					label: ' data',
+					backgroundColor: '#ff0000',
+					borderColor:'#ff0000',
+					data: [],
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Sensor data 4'
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: ''
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Value'
+						}
+					}]
+				}
+			}
+    };
+    
+    var config_05 = {
+			type: 'line',
+			data: {
+				labels: [],
+				datasets: [{
+					label: ' data',
+					backgroundColor: '#ff0000',
+					borderColor:'#ff0000',
+					data: [],
+					fill: false,
+				}]
+			},
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Sensor data 5'
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: ''
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Value'
+						}
+					}]
+				}
+			}
+		};
+
+
+
+
+var ctx = document.getElementById('canvas_00').getContext('2d');
+var chart_00 = new Chart(ctx, config_00);
+
+var ctx = document.getElementById('canvas_01').getContext('2d');
+var chart_01 = new Chart(ctx, config_01);
+
+var ctx = document.getElementById('canvas_02').getContext('2d');
+var chart_02 = new Chart(ctx, config_02);
+
+var ctx = document.getElementById('canvas_03').getContext('2d');
+var chart_03 = new Chart(ctx, config_03);
+
+var ctx = document.getElementById('canvas_04').getContext('2d');
+var chart_04 = new Chart(ctx, config_04);
+
+var ctx = document.getElementById('canvas_05').getContext('2d');
+var chart_05 = new Chart(ctx, config_05);
+
+// Connection opened
+socket.addEventListener('open', function (event) {
+    socket.send('Hello!');
+});
+
+// Listen for messages
+socket.addEventListener('message', function (event) {
+   let dataArray = event.data.split(',');
+   chart_00.data.labels.push(dataArray[dataArray.length-1]);
+   chart_01.data.labels.push(dataArray[dataArray.length-1]);
+   chart_02.data.labels.push(dataArray[dataArray.length-1]);
+   chart_03.data.labels.push(dataArray[dataArray.length-1]);
+   chart_04.data.labels.push(dataArray[dataArray.length-1]);
+   chart_05.data.labels.push(dataArray[dataArray.length-1]);
+   chart_00.data.datasets[0].data.push(dataArray[0]);
+   chart_01.data.datasets[0].data.push(dataArray[1]);
+   chart_02.data.datasets[0].data.push(dataArray[2]);
+   chart_03.data.datasets[0].data.push(dataArray[3]);
+   chart_04.data.datasets[0].data.push(dataArray[4]);
+   chart_05.data.datasets[0].data.push(dataArray[5]);
+
+   if(chart_00.data.labels.length > 10){
+     chart_00.data.labels.shift();
+     chart_01.data.labels.shift();
+     chart_02.data.labels.shift();
+     chart_03.data.labels.shift();
+     chart_04.data.labels.shift();
+     chart_05.data.labels.shift();
+      chart_00.data.datasets[0].data.shift();
+      chart_01.data.datasets[0].data.shift();
+      chart_02.data.datasets[0].data.shift();
+      chart_03.data.datasets[0].data.shift();
+      chart_04.data.datasets[0].data.shift();
+      chart_05.data.datasets[0].data.shift();
+   }
+  chart_00.update();
+  chart_01.update();
+  chart_02.update();
+  chart_03.update();
+  chart_04.update();
+  chart_05.update();
+
+});
+</script>
+
+
+
+
