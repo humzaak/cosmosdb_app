@@ -1,9 +1,9 @@
 const config = {};
 
-config.host =  "https://trumarinetester.documents.azure.com:443/";
-config.authKey = "XbjWZpNRjdJH8CL4ruLxpgvdEHuY0yA5yJ8DcQXwaSsh369TAozcwvtdy9S8DNAX8tSXOPW74mvz8aQUIuGxKQ==";
-config.databaseId = "sensordata";
-config.containerId = "data";
+config.host =  "YOUR_HOST_URL_HERE";
+config.authKey = "YOUR_AUTH_KEY_HERE";
+config.databaseId = "YOUR_DATABASE_ID_HERE";
+config.containerId = "YOUR_CONTAINER_ID_HERE";
 
 
 dbPassword = 'mongodb+srv://YOUR_USER_NAME:'+ encodeURIComponent('YOUR_PASSWORD') + 'YOUR_CLUSTER_ADDRESS';
